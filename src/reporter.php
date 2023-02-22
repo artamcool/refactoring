@@ -7,7 +7,7 @@ namespace Docler;
 interface DoclerReporterInterface {
     public function collect();
     public function generate($rows);
-    public function report(EmailReporter $reporter, $subject, $message);
+    public static function report(EmailReporter $reporter, $subject, $message);
 }
 
 final class docler_reporter_manager implements DoclerReporterInterface {
@@ -43,7 +43,7 @@ final class docler_reporter_manager implements DoclerReporterInterface {
         return $body;
     }
 
-    public function report(EmailReporter $emailReporter, $subject, $message)
+    public static function report(EmailReporter $emailReporter, $subject, $message)
     {
         try {
             $emailReporter->report($subject, $message);
@@ -106,4 +106,4 @@ $reporter = new docler_reporter_manager();
 //$reporter->mysqli = mysqli_connect('localhost', docler_reporter_manager::db_jelszo, docler_reporter_manager::db_felhasznalonev, docler_reporter_manager::db);
 $result = $reporter->collect();
 $result = $reporter->generate($result);
-$reporter->report(new EmailReporter(), reportSubjects::INCOME_REPORT, $result);
+$reporter::report(new EmailReporter(), reportSubjects::INCOME_REPORT, $result);
